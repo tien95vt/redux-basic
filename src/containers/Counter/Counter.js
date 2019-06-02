@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actionCreators from '../../store/actions/index';
 
-import * as actionTypes from '../../store/actions';
 import CounterControl from '../../components/CounterControl/CounterControl';
 import CounterOutput from '../../components/CounterOutput/CounterOutput';
 
@@ -33,8 +33,8 @@ class Counter extends Component {
                 <CounterOutput value={this.props.ctr} />
                 <CounterControl label="Increment" clicked={this.props.onIncrementCounter} />
                 <CounterControl label="Decrement" clicked={this.props.onDecrementCounter}  />
-                <CounterControl label="Add 5" clicked={this.props.onAddCounter}  />
-                <CounterControl label="Subtract 5" clicked={this.props.onSubtractCounter}  />
+                <CounterControl label="Add 5" clicked={() => this.props.onAddCounter(5)}  />
+                <CounterControl label="Subtract 5" clicked={this.props.onSubtractCounter.bind(this, 5)}  />
                 
                 <hr />
                 <button onClick={() => this.props.onStoreResult(this.props.ctr)}>Store Results</button>
@@ -59,12 +59,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIncrementCounter: () => dispatch({ type: actionTypes.INCREMENT }),
-        onDecrementCounter: () => dispatch({ type: actionTypes.DECREMENT }),
-        onAddCounter: () => dispatch({ type: actionTypes.ADD, value: 5 }),
-        onSubtractCounter: () => dispatch({ type: actionTypes.SUB, value: 5 }),
-        onStoreResult: (ctrResult) => dispatch({ type: actionTypes.STORE_RESULT, result: ctrResult }),
-        onDeteteResult: (id) => dispatch({ type: actionTypes.DELETE_RESULT, resultElId: id })
+        onIncrementCounter: () => dispatch(actionCreators.increment()),
+        onDecrementCounter: () => dispatch(actionCreators.decrement()),
+        onAddCounter: (value) => dispatch(actionCreators.add(value)),
+        onSubtractCounter: (value) => dispatch(actionCreators.sub(value)),
+        onStoreResult: (ctrResult) => dispatch(actionCreators.storeResult(ctrResult)),
+        onDeteteResult: (id) => dispatch(actionCreators.deleteResult(id))
     }
 }
 
