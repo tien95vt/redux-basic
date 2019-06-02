@@ -1,4 +1,7 @@
+// PERVIEW BRANCH: FN-Redux-Not-UTILITY
+
 import * as actionTypes from '../actions/actionsTypes';
+import { updateObject } from '../utility';
 
 const initialState = {
     counter: 0
@@ -7,24 +10,13 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
         case actionTypes.INCREMENT:
-            const newState = Object.assign({}, state);
-            newState.counter = state.counter + 1
-            return newState;
+            updateObject(state, {counter: state.counter + 1});
         case actionTypes.DECREMENT:
-            return {
-                ...state,
-                counter: state.counter - 1
-            }
+            return updateObject(state, {counter: state.counter - 1});
         case actionTypes.ADD:
-            return {
-                ...state,
-                counter: state.counter + action.val
-            }
+            return updateObject(state, { counter: state.counter + action.val });
         case actionTypes.SUB:
-            return {
-                ...state,
-                counter: state.counter - action.val
-            } 
+            return updateObject(state, { counter: state.counter - action.val });
         default: 
             return state;  
     } 
